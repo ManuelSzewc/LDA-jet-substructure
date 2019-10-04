@@ -69,7 +69,11 @@ corpus = LineCorpus('taggers/'+tagger_name+'/docFiles/'+'all_events'+tagger_name
 
 # extracting the topics
 print('... extracting topics',flush=True)
-model=eval('gensim.models.LdaModel(corpus, id2word=corpus.dictionary,'+gensim_parameters+')')
+#Here we can choose between standard LDA and MultiCore LDA, setting Multicore to 1
+if(Multicore):
+	model=eval('gensim.models.LdaMulticore(corpus, id2word=corpus.dictionary,'+gensim_parameters_Multicore+')')
+else:
+	model=eval('gensim.models.LdaModel(corpus, id2word=corpus.dictionary,'+gensim_parameters+')')
 model.save('taggers/'+tagger_name+'/modelFiles/'+tagger_name)
 print('... topics extracted and stored in '+'taggers/'+tagger_name+'/modelFiles/'+tagger_name+' (%s seconds)' % round(time.time() - start_time,4),flush=True)
 
